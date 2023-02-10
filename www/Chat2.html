@@ -72,6 +72,10 @@
 
 <body ng-controller="ChatCtrl">
   <h4>PCF to OpenShift App - Discovery Dashboard</h4>
+  <button type="button" class="btn btn-success btn-xl" ng-click="FetchEvents(); spinner=true;">Fetch Last Scan Data</button>
+  <p ng-repeat="row in scanData">
+    {{row}}
+  </p>
   <div data-ng-init="setupWebSockets('init', null)" ng-show="showScanResults">
     <h4>Real Time Scan Results</h4>
     <img ng-src="{{getIconForFileType(context_source_type) || '' }}" class="img-thumbnail" />

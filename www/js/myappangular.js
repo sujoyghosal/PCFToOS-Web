@@ -250,7 +250,7 @@ app.service("UserService", function () {
 });
 
 var BASEURL_BLUEMIX = "https://freecycleapissujoy.mybluemix.net";
-var BASEURL_LOCAL = "http://localhost:5555";
+var BASEURL_LOCAL = "http://localhost:8080";
 var BASEURL_DOCKER = "http://localhost:49155";
 var BASEURL_PIVOTAL = "http://freecycleapissujoy-horned-erasure.cfapps.io";
 var BASEURL_PERSONAL = "https://freecycleapi.mybluemix.net";
@@ -304,6 +304,7 @@ app.controller(
     $scope.rate = 1;
     $scope.pitch = "1";
     $scope.targetLang = "hi-IN";
+    $rootScope.scanData = "";
     $scope.SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
     $scope.SpeechGrammarList =
       SpeechGrammarList || window.webkitSpeechGrammarList;
@@ -384,104 +385,8 @@ app.controller(
         return;
       }
     });
-    $scope.Speak = function (lang, text) {
-      if ($scope.synth.speaking) {
-        console.error("speechSynthesis.speaking");
-        return;
-      }
 
-      if (text !== "") {
-        const utterThis = new SpeechSynthesisUtterance();
 
-        utterThis.onend = function (event) {
-          console.log("SpeechSynthesisUtterance.onend");
-        };
-
-        utterThis.onerror = function (event) {
-          console.error("SpeechSynthesisUtterance.onerror");
-        };
-        /*
-    const selectedOption =
-      voiceSelect.selectedOptions[0].getAttribute("data-name");
-
-    for (let i = 0; i < voices.length; i++) {
-      if (voices[i].name === selectedOption) {
-        utterThis.voice = voices[i];
-        break;
-      }
-    }*/
-        utterThis.pitch = 1;
-        utterThis.rate = 1;
-        utterThis.lang = lang;
-        utterThis.text = text;
-        synth.speak(utterThis);
-      }
-    };
-
-    $scope.SpeechToText = function (srcLang, obj) {
-      /*
-      var diagnostic = document.querySelector(".output");
-      var bg = document.querySelector("html");
-      var hints = document.querySelector(".hints");
-      */
-      $scope.ID = "red";
-      $scope.targetUser = obj;
-      $scope.SpeakButtonLabel = "Say something to " + obj.name;
-      $scope.recognition.lang = srcLang ? srcLang : "bn-IN";
-      $scope.recognition.start();
-      console.log("Ready to receive a speech command.");
-      $scope.targetLang = $scope.targetLang ? $scope.targetLang : "en-US";
-      //alert("Speak something in " + srcLang);
-    };
-    $scope.recognition.onresult = function (event) {
-      // The SpeechRecognitionEvent results property returns a SpeechRecognitionResultList object
-      // The SpeechRecognitionResultList object contains SpeechRecognitionResult objects.
-      // It has a getter so it can be accessed like an array
-      // The first [0] returns the SpeechRecognitionResult at the last position.
-      // Each SpeechRecognitionResult object contains SpeechRecognitionAlternative objects that contain individual results.
-      // These also have getters so they can be accessed like arrays.
-      // The second [0] returns the SpeechRecognitionAlternative at position 0.
-      // We then return the transcript property of the SpeechRecognitionAlternative object
-      $rootScope.chatArray.push({
-        user: $rootScope.username,
-        text: event.results[0][0].transcript,
-        id: "red",
-      });
-      //$rootScope.myText =
-      //  $rootScope.username + ": " + event.results[0][0].transcript;
-      //alert(event.results[0][0].transcript);
-      $rootScope.myText = JSON.stringify($rootScope.chatArray);
-      $scope.ID = "blue";
-      Notification.info({
-        message: event.results[0][0].transcript,
-        title: "New Event",
-        positionY: "top",
-        positionX: "center",
-        delay: 7000,
-      });
-      console.log("Confidence: " + event.results[0][0].confidence);
-      socket.emit("speech", {
-        source: {
-          sourceUserName: $rootScope.username,
-          sourceUserEmail: $rootScope.login_email,
-        },
-        text: event.results[0][0].transcript,
-        //target: targetLang.value,
-        target: $scope.targetUser,
-      });
-    };
-
-    $scope.recognition.onspeechend = function () {
-      recognition.stop();
-    };
-
-    $scope.recognition.onnomatch = function (event) {
-      alert("I did not recognize that");
-    };
-
-    $scope.recognition.onerror = function (event) {
-      alert("I did not recognize that - " + event.error);
-    };
 
     //Google
     $scope.events = [];
@@ -652,51 +557,9 @@ app.controller(
       );
     };
 
-    $scope.SetChat = function (obj) {
-      //alert("Chatting with " + obj.name);
-      $scope.ID = "red";
-      $scope.targetUser = obj;
-      $scope.SpeakButtonLabel = "Say something to " + obj.name;
-      //SpeechToText(srcLang);
-    };
-
-    $scope.SetLang = function (srcLang) {
-      var postURL = BASEURL + "/setLang";
-      var reqObj = {
-        email: $scope.login_email,
-        lang: srcLang,
-      };
-      console.log("SetLang Req Object = " + JSON.stringify(reqObj));
-      postURL = encodeURI(postURL);
-      $http.post(postURL, JSON.stringify(reqObj)).then(
-        function successCallback(response) {
-          // this callback will be called asynchronously
-          // when the response is available
-          //      $scope.loginResult = response.data;
-          $scope.spinner = false;
-          console.log("setLang Successful!");
-          Notification.success({
-            message: "Preferred language successfully set to " + srcLang + "!",
-            positionY: "bottom",
-            positionX: "center",
-          });
-          return;
-        },
-        function errorCallback(error) {
-          console.log("setLang Failed: " + JSON.stringify(error));
-          $scope.spinner = false;
-          Notification.error({
-            message:
-              "Error Setting Language Preference. Please try again later!",
-            positionY: "bottom",
-            positionX: "center",
-          });
-        }
-      );
-    };
-    $scope.DoTopLevelScan = function () {
+    $scope.FetchEvents = function () {
       $scope.spinner = true;
-      var getURL = BASEURL + "/topscan?email=" + $scope.login_email;
+      var getURL = BASEURL + "/fetchevents";
 
       getURL = encodeURI(getURL);
       $http({
@@ -706,13 +569,9 @@ app.controller(
         function successCallback(response) {
           $scope.spinner = false;
           console.log(
-            "received response for top level scan: " + JSON.stringify(response)
+            "received response for scan: " + JSON.stringify(response)
           );
-          $rootScope.myText = response.data.results;
-          $rootScope.context_email = response.data.email;
-          $rootScope.context_time = response.data.time_created;
-          $rootScope.context_type = response.data.event_type;
-          $rootScope.showScanResults = true;
+          $rootScope.scanData = response.data;
         },
         function errorCallback(error) {
           console.log("Error doing top level scan - " + error);
