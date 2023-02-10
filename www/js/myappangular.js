@@ -444,6 +444,7 @@ app.controller(
           replaceMessage: true,
         });
         console.log("Event received from server : " + JSON.stringify(data));
+        $rootScope.scanData = "";
         $rootScope.myText = data.eventDetails.results;
         $rootScope.context_email = data.eventDetails.email;
         $rootScope.context_time = data.eventDetails.time_created;
