@@ -1,83 +1,121 @@
-<!DOCTYPE html>
-<html ng-app="myApp">
+<html>
 
 <head>
-  <title>Speech Translator</title>
-  <script src="https://kit.fontawesome.com/72f4710995.js" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    var count = 0;
+
+    function run() {
+      x = setInterval(function() {
+        if (count >= 1000000000) {
+          clearInterval(x);
+          return;
+        }
+        document.getElementById("countDownText").innerHTML = ++count;
+      }, 1000);
+    }
+    //run();
+
+  </script>
   <style>
-    .Row {
-      display: table-row;
+    .circle {
+      width: 700px;
+      height: 700px;
+      line-height: 700px;
+      border-radius: 50%;
+      font-size: 50px;
+      color: #fff;
+      text-align: center;
+      background: #000;
+      /*border-image: linear-gradient(#f6b73c, #4d9f0c) 50; */
+      border-color: #852085;
+      border-width: 20px;
+      border-style: solid;
+    }
+
+    #countDownText {
+      font-size: 200px;
+      font-weight: bold;
+      color: rgb(22, 190, 208);
+      -webkit-animation: glow 1s ease-in-out infinite alternate;
+      -moz-animation: glow 1s ease-in-out infinite alternate;
+      animation: glow 1s ease-in-out infinite alternate;
+    }
+
+    .wrapper {
+      background-color: #000;
       width: fit-content;
+      padding: 25px;
     }
 
-    .Cell {
-      display: table-cell;
-      border: solid goldenrod;
-      border-width: 1px;
-      padding-left: 5px;
-      padding-right: 5px;
-      align-self: auto;
-      width: auto;
+    @-webkit-keyframes glow {
+      from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+      }
+
+      to {
+        text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+      }
     }
 
-    .dropbtn {
-      background-color: #04AA6D;
-      color: white;
-      padding: 16px;
-      font-size: 16px;
-      border: none;
+    body {
+      background-color: #000007;
     }
 
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #f1f1f1;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-      z-index: 1;
-    }
-
-    .dropdown-content a {
-      color: black;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-    }
-
-    .dropdown-content a:hover {
-      background-color: #ddd;
-    }
-
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-
-    .dropdown:hover .dropbtn {
-      background-color: #3e8e41;
+    p,
+    h2,
+    h4 {
+      color: rgb(46, 233, 17);
     }
 
   </style>
 </head>
 
-<body ng-controller="ChatCtrl">
-
-  <div ng-controller="myController" class="container">
-    <div class="row">
-      <div class="col-xs-3 col-sm-3 col-md-3 tile" ng-repeat="tile in items">
-        <h3>
-          {{tile.name}}
-        </h3>
-        <p>
-          {{tile.description}}
-        </p>
+<body ng-controller="DashboardCtrl">
+  <h4>PCF to OpenShift App - Discovery Dashboard</h4>
+  <button type="button" class="btn btn-success btn-xl" ng-click="FetchEvents(); spinner=true;">Fetch Last Scan Data</button>
+  <div ng-show="spinner"><i class="fa fa-cog fa-spin" style="font-size:48px;color:red"></i></div>
+  <p ng-repeat="row in scanData">
+    {{scanData}}
+  </p>
+  <div data-ng-init="setupWebSockets('init', null)" ng-show="showScanResults">
+    <h4>Real Time Scan Results</h4>
+    <img ng-src="{{getIconForFileType(context_source_type) || '' }}" class="img-thumbnail" />
+    <div class="leftbox">
+      <div class="wrapper">
+        <div align="center">
+          <h4>Files Scanned</h4>
+        </div>
+        <div class="circle">
+          <span id="countDownText">{{context_file_number}}</span>
+        </div>
+      </div>
+      <div class="wrapper">
+        <div align="center">
+          <h4>Dependencies Detected</h4>
+        </div>
+        <div class="circle">
+          <span id="countDownText">{{context_deps_count}}</span>
+        </div>
       </div>
     </div>
-
+    <div class="leftbox">
+      <div class="wrapper">
+        <div align="center">
+          <h4>All Env Vars Detected</h4>
+        </div>
+        <div class="circle">
+          <span id="countDownText">{{context_envvars_count}}</span>
+        </div>
+      </div>
+      <div class="wrapper">
+        <div align="center">
+          <h4>VCAP Env Vars Detected</h4>
+        </div>
+        <div class="circle">
+          <span id="countDownText">{{context_vcap_envvars_count}}</span>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 

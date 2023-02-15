@@ -4,156 +4,109 @@ var app = angular.module("myApp", [
   "ui.directives",
   "ui.filters",
   "ui-notification",
-  "720kb.socialshare",
 ]);
 app.config([
   "$routeProvider",
   function ($routeProvider) {
     $routeProvider
       .when("/login", {
-        templateUrl: "Chat2.html",
+        templateUrl: "home.html",
         //templateUrl: "Login.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
         isLogin: true,
       })
       .when("/home", {
-        templateUrl: "Chat2.html",
-        controller: "ChatCtrl",
+        templateUrl: "home.html",
+        controller: "DashboardCtrl",
       })
       .when("/register", {
         templateUrl: "Register.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
       })
       .when("/updateuser", {
         templateUrl: "UpdateProfile.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
       })
       .when("/updatepassword", {
         templateUrl: "UpdateProfile.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
       })
       .when("/signup", {
         templateUrl: "Register.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
       })
       .when("/getdonation", {
         //templateUrl: "ListDonations.html",
         templateUrl: "ViewOffers.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
       })
       .when("/donationsaccepted", {
         templateUrl: "MyPickupList.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
       })
       .when("/offerdonation", {
         templateUrl: "OfferDonation.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
       })
       .when("/offershistory", {
         templateUrl: "MyOffers.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
       })
       .when("/createneed", {
         templateUrl: "CreateNeed.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
       })
       .when("/myneeds", {
         templateUrl: "MyNeeds.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
       })
       .when("/createemergency", {
         templateUrl: "CreateEmergency.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
       })
       .when("/viewneeds", {
         templateUrl: "NeedsNearby.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
       })
       .when("/viewemergencies", {
         templateUrl: "ViewEmergencies.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
       })
       .when("/settings", {
         templateUrl: "settings.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
       })
       .when("/subscribe", {
         templateUrl: "Subscribe2.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
       })
       .when("/sendnotification", {
         templateUrl: "SendPush.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
       })
       .when("/notifications", {
         templateUrl: "Notifications.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
       })
       .when("/eventsnearby", {
         templateUrl: "MyNearbyEvents.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
       })
       .when("/resetpw", {
         templateUrl: "ResetPassword.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
       })
       .when("/index", {
         templateUrl: "index.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
       })
       .when("/contactus", {
         templateUrl: "ContactUs.html",
-        controller: "ChatCtrl",
+        controller: "DashboardCtrl",
       })
       .otherwise({
         redirectTo: "/login",
       });
-  },
-]);
-app.config([
-  "socialshareConfProvider",
-  function configApp(socialshareConfProvider) {
-    socialshareConfProvider.configure([
-      {
-        provider: "twitter",
-        conf: {
-          url: "http://720kb.net",
-          text: "720kb is enough",
-          via: "npm",
-          hashtags: "angularjs,socialshare,angular-socialshare",
-          trigger: "click",
-          popupHeight: 800,
-          popupWidth: 400,
-        },
-      },
-      {
-        provider: "facebook",
-        conf: {
-          url: "http://720kb.net",
-          popupHeight: 1000,
-          popupWidth: 1000,
-        },
-      },
-      //and so on ...
-      {
-        provider: "google",
-        conf: {
-          url: "http://720kb.net",
-          trigger: "mouseover",
-          popupHeight: 900,
-          popupWidth: 700,
-        },
-      },
-      {
-        provider: "linkedin",
-        conf: {
-          url: "http://720kb.net",
-          trigger: "mouseover",
-          popupHeight: 900,
-          popupWidth: 700,
-        },
-      },
-    ]);
   },
 ]);
 app.service("DataService", function () {
@@ -249,11 +202,8 @@ app.service("UserService", function () {
   };
 });
 
-var BASEURL_BLUEMIX = "https://freecycleapissujoy.mybluemix.net";
 var BASEURL_LOCAL = "http://localhost:8080";
 var BASEURL_DOCKER = "http://localhost:49155";
-var BASEURL_PIVOTAL = "http://freecycleapissujoy-horned-erasure.cfapps.io";
-var BASEURL_PERSONAL = "https://freecycleapi.mybluemix.net";
 var BASEURL_GCP = "http://34.131.27.98:5555";
 var BASEURL_OS = "https://pcf-to-os-api-concession-kiosk.pcf-to-ocp-migration-c6c44da74def18a795b07cc32856e138-0000.us-south.containers.appdomain.cloud";
 
@@ -264,7 +214,7 @@ var GEOCODEURL =
 //"http://api.positionstack.com/v1/forward?access_key=cff8960a5b6a7fde5eac5d20b3d16295";
 
 app.controller(
-  "ChatCtrl",
+  "DashboardCtrl",
   function (
     $scope,
     $rootScope,
@@ -305,29 +255,7 @@ app.controller(
     $scope.pitch = "1";
     $scope.targetLang = "hi-IN";
     $rootScope.scanData = "";
-    $scope.SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
-    $scope.SpeechGrammarList =
-      SpeechGrammarList || window.webkitSpeechGrammarList;
-    $scope.SpeechRecognitionEvent =
-      SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
-    $scope.recognition = new SpeechRecognition();
-    if (SpeechGrammarList) {
-      // SpeechGrammarList is not currently available in Safari, and does not have any effect in any other browser.
-      // This code is provided as a demonstration of possible capability. You may choose not to use it.
-      var speechRecognitionList = new SpeechGrammarList();
-      var grammar =
-        "#JSGF V1.0; grammar colors; public <color> = " +
-        colors.join(" | ") +
-        " ;";
-      speechRecognitionList.addFromString(grammar, 1);
-      $scope.recognition.grammars = speechRecognitionList;
-    }
-    $scope.recognition.continuous = false;
-    $scope.recognition.lang = "bn-IN";
-    //recognition.lang = "en-US";
-    $scope.recognition.interimResults = false;
-    $scope.recognition.maxAlternatives = 1;
-    $scope.targetLang = "th";
+    
     $scope.event_receive = {
       max_distance: 0,
       lng: 0,
@@ -699,311 +627,7 @@ app.controller(
       settingsObject.pushstoptime = stop;
       return settingsObject;
     }
-    $scope.HaveIAcceptedThisdonation = function (row) {
-      if (!row.receiver || receiver.length < 1) return false;
-      if (row.receiver.receiver_email == UserService.getLoggedIn().email)
-        return true;
-      else return false;
-    };
 
-    $scope.Subscribe = function () {
-      $scope.spinner = true;
-
-      //var selectedTypes = $rootScope.subscribed_events;
-      selectedTypes = [];
-      if ($scope.data) {
-        if (!$scope.city) {
-          Notification.error({
-            message: "Please enter City and Item name for alerts",
-            title: "Error",
-            positionY: "bottom",
-            positionX: "center",
-            delay: 4000,
-          });
-          return;
-        }
-        for (var key in $scope.data) {
-          if ($scope.data[key])
-            selectedTypes.push(
-              key.toString().toUpperCase().replace("_", "-") +
-                "-" +
-                $scope.city.toString().trim().toUpperCase()
-            );
-        }
-        console.log("Selected Types: " + JSON.stringify(selectedTypes));
-      }
-      var postURL = BASEURL + "/subscribe_events";
-      var reqObj = {
-        events: selectedTypes,
-        event_receive_location: $scope.event_receive,
-        email: UserService.getLoggedIn().email,
-        user_id: UserService.getLoggedIn()._id,
-      };
-      console.log("Sending Event payload: " + JSON.stringify(reqObj));
-      postURL = encodeURI(postURL);
-      $http.put(postURL, JSON.stringify(reqObj)).then(
-        function successCallback(response) {
-          // this callback will be called asynchronously
-          // when the response is available
-          $scope.spinner = false;
-          var u = $scope.login_email;
-          //addUserToGroup(group, u);
-          //$scope.found  = "Active donation offers for " + param_name;
-          Notification.success({
-            message: "Subscription added successfully.",
-            positionY: "bottom",
-            positionX: "center",
-          });
-          console.log(
-            "Subscribe Events Response from API: " + JSON.stringify(response)
-          );
-          console.log(
-            "Sending to websocket server to create new subscriptions..."
-          );
-          $rootScope.subscribed_events = selectedTypes;
-          $rootScope.event_receive_max_distance =
-            $scope.event_receive.max_distance;
-          $rootScope.event_receive_location = {
-            type: "Point",
-            coordinates: [$scope.event_receive.lng, $scope.event_receive.lat],
-          };
-
-          socket.emit("create-room", {
-            //channels: $rootScope.subscribed_events,
-            channels: "newscan",
-          });
-        },
-        function errorCallback(error) {
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
-          $scope.spinner = false;
-          $scope.found =
-            "Could not process this request. Please try again later!";
-          console.log("#####Subscribe error: " + JSON.stringify(error));
-          Notification.error({
-            message: "Error processing this request. Please try again later!",
-            positionY: "bottom",
-            positionX: "center",
-          });
-          $scope.alldonations = false;
-        }
-      );
-    };
-    $scope.GetEventsForUser = function (executeInBg) {
-      if (!executeInBg) {
-        $scope.spinner = true;
-        $scope.list_events = false;
-      } else {
-        $scope.spinner = false;
-      }
-      $scope.found = "";
-      var fetchURL = BASEURL + "/fetchevents?";
-      fetchURL = encodeURI(fetchURL);
-      var reqObj = {
-        subscribed_events: $rootScope.subscribed_events,
-      };
-      console.log("Calling fetchevents API..");
-      $http.post(fetchURL, JSON.stringify(reqObj)).then(
-        function successCallback(response) {
-          // this callback will be called asynchronously
-          // when the response is available
-          if (!executeInBg) {
-            $scope.spinner = false;
-            $scope.list_events = true;
-          }
-          if (response) {
-            $scope.events = response.data;
-            $rootScope.eventsCount = response.data.length;
-          }
-          /*
-          //Show only newer events
-          var ONE_DAY = 24 * 60 * 60 * 1000; //ms
-          var filteredEvents = [];
-          if ($scope.events && $scope.events.length > 0) {
-            for (var i = 0; i < $scope.events.length; i++) {
-              var d = new Date();
-              var o = new Date($scope.events[i].time_created);
-              if (d - o > 4 * ONE_DAY)
-                //events for only last 4 days
-                continue;
-              else if (
-                $scope.events[i].email === UserService.getLoggedIn().email
-              )
-                //self posted event
-                continue;
-              else filteredEvents.push($scope.events[i]);
-            }
-            //console.log("Filtered " + ($scope.events.length - filteredEvents.length) + " old records");
-            $scope.events = filteredEvents;
-            $scope.resultEvents =
-              "Found " +
-              $scope.events.length +
-              " events matching your criteria.";
-          } else {
-            $scope.found = "No Notifications Found";
-            $scope.showevents = false;
-          }
-          $rootScope.eventsCount = $scope.events.length;
-        */
-        },
-        function errorCallback(error) {
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
-          console.log(JSON.stringify(error));
-          $scope.spinner = false;
-          $scope.groupusers = "ERROR GETTING GROUP USERS ";
-          $scope.showevents = false;
-          if (error.status == 404) {
-            $scope.found = "No records matching your subscriptions found.";
-            $rootScope.eventsCount = 0;
-          } else $scope.found = "Could not fetch events. " + error.data;
-        }
-      );
-    };
-
-    function SendPushToUserByEmail(email, text) {
-      $scope.spinner = true;
-      var getURL = BASEURL + "/getuser?email=" + email.trim();
-      getURL = encodeURI(getURL);
-      $http({
-        method: "GET",
-        url: getURL,
-      }).then(
-        function successCallback(response) {
-          $scope.spinner = false;
-          if (
-            angular.isObject(response) &&
-            response.data.toString() === "User Not Found"
-          ) {
-            $scope.found = "Id Not Found";
-          } else {
-            var obj = response.data[0];
-            if (!checkIfPushAllowedNow(obj.settings)) {
-              console.log(
-                "SendPushToUser: Prevented push as filtered by settings opitions. " +
-                  ":" +
-                  JSON.stringify(response.data.settings)
-              );
-              return;
-            } else {
-              console.log(
-                "SendPushToUser: Sending Push as filtered by settings opitions. " +
-                  ":" +
-                  JSON.stringify(response.data.settings)
-              );
-              SendPushToUser(obj.uuid, text);
-            }
-
-            return;
-          }
-        },
-        function errorCallback(error) {
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
-          //      $scope.loginResult = "Could not submit login request.." + error;
-          $scope.spinner = false;
-          //      $scope.login_email = '';
-        }
-      );
-    }
-    $scope.NotifyDonor = function (email, text) {
-      if (!email) {
-        Notification.error({
-          message: "Email Not Found!",
-          positionY: "bottom",
-          positionX: "center",
-        });
-        $scope.found = "ERROR - Email NOT FOUND";
-        return;
-      }
-      $scope.spinner = true;
-      //first create group with id=<city>-<place>
-      var getURL = BASEURL + "/getuser?email=" + email.trim();
-      getURL = encodeURI(getURL);
-      $http({
-        method: "GET",
-        url: getURL,
-      }).then(
-        function successCallback(response) {
-          // this callback will be called asynchronously
-          // when the response is available
-          $scope.spinner = false;
-          var passengers = [];
-          passengers = response.data;
-          for (var i = 0; i < passengers.length; i++) {
-            var auuid = "";
-            auuid = passengers[i].uuid;
-            SendPushToUser(auuid, text);
-          }
-        },
-        function errorCallback(error) {
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
-          $scope.spinner = false;
-          $scope.passengers = "ERROR GETTING PASSENGERS ";
-        }
-      );
-    };
-
-    function SendPushToUser(uuid, text) {
-      //       alert("Sending Push TO User With UUID=" + uuid);
-      //        return;
-      $scope.spinner = true;
-      if (!uuid) {
-        $scope.found = "ERROR";
-        console.log("SendPushToUser(uuid, text): No UUID received");
-        return;
-      }
-      console.log(
-        "Attempting to send push to uuid: " + uuid + " with text: " + text
-      );
-      //first create group with id=<city>-<place>
-      var getURL = BASEURL + "/getuserbyuuid?uuid=" + uuid.trim();
-      getURL = encodeURI(getURL);
-      $http({
-        method: "GET",
-        url: getURL,
-      }).then(
-        function successCallback(response) {
-          // this callback will be called asynchronously
-          // when the response is available
-          $scope.spinner = false;
-
-          if (!checkIfPushAllowedNow(response.data.settings)) {
-            console.log(
-              "SendPushToUser: Prevented push as filtered by settings opitions. " +
-                uuid +
-                ":" +
-                JSON.stringify(response.data.settings)
-            );
-            return;
-          } else {
-            console.log(
-              "SendPushToUser: Sending Push as filtered by settings opitions. " +
-                uuid +
-                ":" +
-                JSON.stringify(response.data.settings)
-            );
-          }
-
-          var gcmidarray = [];
-          gcmidarray = response.data.gcm_ids;
-          console.log("SendPush GCMIDs=" + JSON.stringify(gcmidarray));
-          var gcmids = "";
-          if (gcmidarray && gcmidarray.length > 0) {
-            for (var i = 0; i < gcmidarray.length; i++) {
-              gcmids += gcmidarray[i] + "^";
-            }
-            $scope.SendPush(gcmids, text);
-          }
-        },
-        function errorCallback(error) {
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
-          $scope.spinner = false;
-        }
-      );
-    }
     $scope.SendSettings = function (settings) {
       $scope.result = "";
       $scope.spinner = true;
@@ -1049,291 +673,6 @@ app.controller(
       );
     };
 
-    $scope.AcceptDonation = function (row, status) {
-      $scope.uuid = "";
-      $scope.result = "";
-      $scope.spinner = true;
-      var loggedinUser = UserService.getLoggedIn();
-      var receiveTime = new Date();
-      var filteredtime = $filter("date")(receiveTime, "medium");
-      var updateURL =
-        BASEURL +
-        "/acceptdonation?uuid=" +
-        row.uuid +
-        "&receiver_name=" +
-        loggedinUser.fullname +
-        "&receiver_phone=" +
-        loggedinUser.phone +
-        "&receiver_email=" +
-        loggedinUser.email +
-        "&receiver_uuid=" +
-        loggedinUser.uuid +
-        "&received_time=" +
-        filteredtime +
-        "&status=" +
-        status;
-      console.log("Accept donation URL is: " + updateURL);
-      $http({
-        method: "GET",
-        url: encodeURI(updateURL),
-      }).then(
-        function successCallback(response) {
-          // this callback will be called asynchronously
-          // when the response is available
-          //alert(response)
-          //   $scope.found  = "Accepted donation Successfully going from " + row.from + " to " + row.to + " at " + row.time;
-          $scope.spinner = false;
-          if (response.data === "Already Accepted") {
-            $scope.result = response.data;
-            $scope.uuid = row.uuid;
-            $scope.alldonations = true;
-            $scope.cancel = true;
-            return;
-          } else {
-            $scope.result = ("successfully " + status).toUpperCase();
-            $scope.GetDonations("city", row.city, false);
-            $scope.uuid = row.uuid;
-            $scope.alldonations = true;
-            $scope.cancel = true;
-            SendPushToUserByEmail(
-              row.email,
-              "donation accepted by " + loggedinUser.fullname
-            );
-          }
-        },
-        function errorCallback(error) {
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
-          $scope.spinner = false;
-          $scope.accepteddonation = "Could not submit acceptance. " + error;
-          $scope.cancel = false;
-        }
-      );
-    };
-    var accepts = [];
-
-    $scope.GetdonationAcceptances = function (row, cancel) {
-      $scope.spinner = true;
-      var acceptsURL = BASEURL + "/getdonationacceptances?uuid=" + row.uuid;
-      $http({
-        method: "GET",
-        url: acceptsURL,
-      }).then(
-        function successCallback(response) {
-          // this callback will be called asynchronously
-          // when the response is available
-          $scope.spinner = false;
-          accepts = response.data.entities;
-          if (cancel) $scope.Canceldonation(row, false);
-        },
-        function errorCallback(error) {
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
-          $scope.spinner = false;
-          alert("Could not submit acceptance. " + error);
-          $scope.accepted = false;
-        }
-      );
-    };
-
-    $scope.GetAcceptedDonations = function (email) {
-      $scope.spinner = true;
-      var getURL = BASEURL + "/accepteddonations?email=" + email.trim();
-      getURL = encodeURI(getURL);
-      $http({
-        method: "GET",
-        url: getURL,
-      }).then(
-        function successCallback(response) {
-          // this callback will be called asynchronously
-          // when the response is available
-          $scope.spinner = false;
-          if (angular.isArray(response.data)) {
-            $scope.citydonations = response.data;
-            // $scope.found  = "Active donation offers for " + param_name;
-            $scope.alldonations = true;
-            $scope.cancel = true;
-          } else {
-            $scope.result = response.data;
-            // $scope.found  = "Active donation offers for " + param_name;
-            $scope.alldonations = false;
-            $scope.cancel = false;
-          }
-        },
-        function errorCallback(error) {
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
-          $scope.spinner = false;
-          $scope.found = "Oops! There was a problem. " + error;
-          $scope.alldonations = false;
-        }
-      );
-    };
-    $scope.CancelOffer = function (row) {
-      if (confirm("Are you sure you want to cancel this offer?") == false) {
-        console.log("####User cancelled Offer Deletion");
-        return;
-      }
-      $scope.spinner = true;
-      var cancelURL = BASEURL + "/canceloffer?uuid=" + row.uuid;
-      Notification.info({
-        message: "Obliterating offer..please wait!",
-        positionY: "bottom",
-        positionX: "center",
-      });
-      $http({
-        method: "GET",
-        url: encodeURI(cancelURL),
-      }).then(
-        function successCallback(response) {
-          // this callback will be called asynchronously
-          // when the response is available
-          $scope.spinner = false;
-          //alert("Successfully Cancelled.");
-          Notification.success({
-            message: "All done! Sucessfully removed offer.",
-            positionY: "bottom",
-            positionX: "center",
-          });
-          $scope.cancel = true;
-          $scope.GetDonations("email", $scope.login_email, true);
-          $scope.result = "Successfully Cancelled This Offer";
-          /*SendPushToUser(
-                    row.receiver.receiver_uuid,
-                    "A donation offered by " + $scope.fullname + " has been cancelled"
-                );*/
-        },
-        function errorCallback(error) {
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
-          $scope.spinner = false;
-          $scope.result = "Could not cancel. " + cancelURL;
-          Notification.error({
-            message: "Error processing this request. Please try again later!",
-            positionY: "bottom",
-            positionX: "center",
-          });
-          $scope.accepted = false;
-          $scope.uuid = row.uuid;
-          $scope.cancel = false;
-          return;
-        }
-      );
-    };
-
-    $scope.Canceldonation = function (row, responseAsMessage) {
-      //   $scope.uuid = '';
-      //    $scope.GetdonationAcceptances(row);
-      $scope.spinner = true;
-      var cancelURL =
-        BASEURL +
-        "/cancelaccepteddonation?uuid=" +
-        row.uuid +
-        "&receiver_email=" +
-        UserService.getLoggedIn().email;
-      $http({
-        method: "GET",
-        url: cancelURL,
-      }).then(
-        function successCallback(response) {
-          // this callback will be called asynchronously
-          // when the response is available
-          $scope.spinner = false;
-          Notification.info({
-            message: "Successfully Cancelled This Offer!",
-            positionY: "bottom",
-            positionX: "center",
-          });
-          if (responseAsMessage) {
-            $scope.GetMyAccepteddonations(login_email);
-            return;
-          }
-          $scope.uuid = row.uuid;
-          $scope.cancel = true;
-          $scope.Getdonations("city", row.city, false);
-          $scope.result = "Cancelled donation";
-          //    SendPushToUserByEmail(row.email, "donation cancelled by a passenger");
-        },
-        function errorCallback(error) {
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
-          $scope.spinner = false;
-          $scope.result = "Could not cancel. ";
-          Notification.error({
-            message: "Error processing this request. Please try again later!",
-            positionY: "bottom",
-            positionX: "center",
-          });
-          $scope.accepted = false;
-          $scope.uuid = row.uuid;
-          $scope.cancel = false;
-        }
-      );
-    };
-    $scope.ContactUs = function (query) {
-      $scope.spinner = true;
-      var getURL =
-        /*BASEURL + "/contactus?email=" +
-            query.email.trim() +
-            "&fullname=" +
-            query.name.trim() +
-            "&phone=" +
-            query.phone.trim() + "&city=" +
-            query.city.trim() + "&subject=" +
-            query.subject.trim() + "&text=" +
-            query.text.trim();*/
-        BASEURL + "/contactus";
-      getURL = encodeURI(getURL);
-      var reqObj = {
-        email: query.email.trim(),
-        fullname: query.name.trim(),
-        phone: query.phone.trim(),
-        city: query.city.trim(),
-        subject: query.subject.trim(),
-        text: query.text.trim(),
-      };
-      console.log("ContactUs URL=" + getURL);
-      $http.post(getURL, JSON.stringify(reqObj)).then(
-        function successCallback(response) {
-          // this callback will be called asynchronously
-          // when the response is available
-          $scope.spinner = false;
-          if (
-            angular.isObject(response) &&
-            response.data.toString() === "QUERY CREATED"
-          ) {
-            Notification.success({
-              message:
-                "Thank You! Your query has been sent. We will get back to you as soon as possible.",
-              positionY: "bottom",
-              positionX: "center",
-            });
-            $scope.result =
-              "Thank You! Your query has been sent. We will get back to you as soon as possible.";
-            return;
-          } else {
-            $scope.result = "Error sending mail. Please try again later.";
-            Notification.error({
-              message: "Could not create user id, might be existing!",
-              positionY: "bottom",
-              positionX: "center",
-            });
-            return;
-          }
-        },
-        function errorCallback(error) {
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
-          $scope.spinner = false;
-          $scope.result = "Error submitting  request. Please try again later.";
-          Notification.error({
-            message: "Could not create user id, might be existing!",
-            positionY: "bottom",
-            positionX: "center",
-          });
-        }
-      );
-    };
     $scope.Logout = function () {
       $scope.login_email = "";
       UserService.setLoggedIn({});
