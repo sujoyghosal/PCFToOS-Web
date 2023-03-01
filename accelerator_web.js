@@ -17,7 +17,7 @@ app.get("/", function (req, res) {
   //__dirname : It will resolve to your project folder.
 });
 
-var PORT = process.env.PORT || 8080;
+var PORT = process.env.PORT || 3000;
 
 app.listen(PORT, function () {
   console.log(

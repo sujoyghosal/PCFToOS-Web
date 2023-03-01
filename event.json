@@ -1,0 +1,90 @@
+{
+    "event_id": "63fed5bcf3050195d51d546a",
+    "eventDetails": {
+        "scan_id": 13136,
+        "time_created": "Wed Mar  1 10:03:56 IST 2023",
+        "event_type": "top level scan",
+        "file_type": "javascript",
+        "file_number": 50,
+        "results": {
+            "type": "javascript",
+            "file": "node-samples/project12410/node-sample-code12410.js",
+            "dependencies": [
+                "http",
+                "express",
+                "mongodb",
+                "fs",
+                "cors"
+            ],
+            "count_of_dependencies": 5,
+            "env_vars": [
+                "PORT",
+                "VCAP_URL25607",
+                "DB_URL25607"
+            ],
+            "env_vars_count": 3,
+            "vcap_env_vars": [
+                "VCAP_URL25607"
+            ],
+            "vcap_env_vars_count": 1
+        },
+        "manifest": {
+            "version": 1,
+            "applications": [
+                {
+                    "name": "my-app-12410",
+                    "memory": "128M",
+                    "instances": 2,
+                    "disk_quota": "1024M",
+                    "buildpacks": [
+                        "https://github.com/cloudfoundry/nodejs-buildpack.git"
+                    ],
+                    "log-rate-limit": "49Kb",
+                    "stack": "cflinuxfs3",
+                    "health-check-type": "http",
+                    "health-check-http-endpoint": "/health",
+                    "health-check-invocation-timeout": 30,
+                    "env": {
+                        "RAILS_ENV": "production",
+                        "RACK_ENV": "production"
+                    },
+                    "metadata": {
+                        "annotations": {
+                            "contact": "bob@example.com jane@example.com"
+                        },
+                        "labels:": {
+                            "sensitive": true,
+                            "no-route": true
+                        }
+                    },
+                    "routes": {
+                        "route": "example.com",
+                        "protocol": "http2"
+                    }
+                }
+            ]
+        },
+        "packagejson": {
+            "name": "sample-node12410",
+            "version": "0.0.0",
+            "description": "PCF to OpenShift Accelerator API",
+            "main": "sample-node12410.js",
+            "scripts": {
+                "start": "node sample-node12410.js"
+            },
+            "dependencies": {
+                "@google-cloud/compute": "^3.7.0",
+                "body-parser": "1.19.2",
+                "cors": "2.8.5",
+                "https": "1.0.0",
+                "fs": "0.0.1-security",
+                "express": "4.18.1",
+                "http": "0.0.1-security",
+                "mongodb": "4.11.0",
+                "request": "2.88.2",
+                "socket.io": "4.5.0"
+            }
+        },
+        "_id": "63fed5bcf3050195d51d546a"
+    }
+} (myappangular.js, line 377)

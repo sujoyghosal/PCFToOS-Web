@@ -3,7 +3,7 @@ var app = angular.module("myApp", [
   "ui.bootstrap",
   "ui.directives",
   "ui.filters",
-  "ui-notification",
+  "ui-notification"
 ]);
 app.config([
   "$routeProvider",
@@ -207,7 +207,7 @@ var BASEURL_DOCKER = "http://localhost:49155";
 var BASEURL_GCP = "http://34.131.27.98:5555";
 var BASEURL_OS = "https://pcf-to-os-api-concession-kiosk.pcf-to-ocp-migration-c6c44da74def18a795b07cc32856e138-0000.us-south.containers.appdomain.cloud";
 
-var BASEURL = BASEURL_OS;
+var BASEURL = BASEURL_LOCAL;
 var socket = null;
 var GEOCODEURL =
   "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAwQOPx91fjj06kDNq7hjkT-ZSxkQFtJPA";
@@ -255,7 +255,28 @@ app.controller(
     $scope.pitch = "1";
     $scope.targetLang = "hi-IN";
     $rootScope.scanData = "";
-    
+    $rootScope.context_envvars_count = 0;
+    $rootScope.context_vcap_envvars_count = 0;
+    $rootScope.context_deps_count = 0;
+    $rootScope.context_instances_normal = 0;
+    $rootScope.context_instances_mh = 0;
+    $rootScope.context_instances_h = 0;
+    $rootScope.context_instances_vh = 0;
+    $rootScope.context_memory_normal = 0;
+    $rootScope.context_memory_mh = 0;
+    $rootScope.context_memory_h = 0;
+    $rootScope.context_memory_vh = 0;
+    $rootScope.context_dq_normal = 0;
+    $rootScope.context_dq_mh = 0;
+    $rootScope.context_dq_h = 0;
+    $rootScope.context_dq_vh = 0;
+    $rootScope.context_lrl_normal = 0;
+    $rootScope.context_lrl_mh = 0;
+    $rootScope.context_lrl_h = 0;
+    $rootScope.context_lrl_vh = 0;
+    $rootScope.context_memory = 0;
+    $rootScope.context_disk_quota = 0;
+    $rootScope.context_log_rate_limit = 0;
     $scope.event_receive = {
       max_distance: 0,
       lng: 0,
@@ -272,7 +293,7 @@ app.controller(
     $scope.maxDate = {
       value: new Date(2015, 12, 31, 14, 57),
     };
-    $scope.isMobileDevice = function () {};
+    $scope.isMobileDevice = function () { };
     $rootSocket = null;
     $scope.isVisible = function () {
       /*return ("/login" !== $location.path() && "/signup" !== $location.path() &&
@@ -379,12 +400,62 @@ app.controller(
         $rootScope.context_type = data.eventDetails.event_type;
         $rootScope.context_source_type = data.eventDetails.file_type;
         $rootScope.context_file_number = data.eventDetails.file_number;
-        $rootScope.context_deps_count =
-          data.eventDetails.results.count_of_dependencies;
-        $rootScope.context_envvars_count =
-          data.eventDetails.results.env_vars_count;
-        $rootScope.context_vcap_envvars_count =
-          data.eventDetails.results.vcap_env_vars_count;
+        $rootScope.context_deps_count +=
+          Number.parseInt(data.eventDetails.results.count_of_dependencies);
+        $rootScope.context_envvars_count +=
+          Number.parseInt(data.eventDetails.results.env_vars_count);
+        $rootScope.context_vcap_envvars_count +=
+          Number.parseInt(data.eventDetails.results.vcap_env_vars_count);
+
+
+        var ci = Number.parseInt(data.eventDetails.manifest.applications[0].instances);
+        if (ci > 0 && ci <= 2)
+          $rootScope.context_instances_normal++;
+        if (ci > 2 && ci <= 4)
+          $rootScope.context_instances_mh++;
+        if (ci > 4 && ci <= 5)
+          $rootScope.context_instances_h++;
+        if (ci > 5)
+          $rootScope.context_instances_vh++;
+
+        var m = Number.parseInt(data.eventDetails.manifest.applications[0].memory.replace('M', ''));
+        if (m > 0 && m <= 128)
+          $rootScope.context_memory_normal++;
+        if (m > 128 && m <= 256)
+          $rootScope.context_memory_mh++;
+        if (m > 256 && m <= 512)
+          $rootScope.context_memory_h++;
+        if (m > 512)
+          $rootScope.context_memory_vh++;
+
+        var dq = Number.parseInt(data.eventDetails.manifest.applications[0].disk_quota.replace('M', ''));
+        if (dq > 0 && dq <= 1024)
+          $rootScope.context_dq_normal++;
+        if (dq > 1024 && dq <= 2048)
+          $rootScope.context_dq_mh++;
+        if (dq > 2048 && dq <= 3072)
+          $rootScope.context_dq_h++;
+        if (dq > 3072)
+          $rootScope.context_dq_vh++;
+
+        var lrl = Number.parseInt(JSON.stringify(data.eventDetails.manifest.applications[0]["log-rate-limit"]).replace('Kb', '').replace('"', ''));
+        console.log("####LRL=" + lrl)
+        if (lrl > 0 && lrl <= 20)
+          $rootScope.context_lrl_normal++;
+        if (lrl > 20 && lrl <= 40)
+          $rootScope.context_lrl_mh++;
+        if (lrl > 40 && lrl <= 60)
+          $rootScope.context_lrl_h++;
+        if (lrl > 60)
+          $rootScope.context_lrl_vh++;
+
+        $rootScope.context_memory +=
+          Number.parseInt(data.eventDetails.manifest.applications[0].memory.replace('M', ''));
+        $rootScope.context_disk_quota +=
+          Number.parseInt(JSON.stringify(data.eventDetails.manifest.applications[0].disk_quota).replace('M', ''));
+        $rootScope.context_log_rate_limit +=
+          Number.parseInt(JSON.stringify(data.eventDetails.manifest.applications[0]["log-rate-limit"]).replace('Kb', ''));
+
       });
 
       socket.on("disconnect", () => {
