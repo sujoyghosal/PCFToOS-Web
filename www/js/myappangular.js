@@ -400,11 +400,11 @@ app.controller(
         $rootScope.context_type = data.eventDetails.event_type;
         $rootScope.context_source_type = data.eventDetails.file_type;
         $rootScope.context_file_number = data.eventDetails.file_number;
-        $rootScope.context_deps_count +=
+        $rootScope.context_deps_count =
           Number.parseInt(data.eventDetails.results.count_of_dependencies);
-        $rootScope.context_envvars_count +=
+        $rootScope.context_envvars_count =
           Number.parseInt(data.eventDetails.results.env_vars_count);
-        $rootScope.context_vcap_envvars_count +=
+        $rootScope.context_vcap_envvars_count =
           Number.parseInt(data.eventDetails.results.vcap_env_vars_count);
 
 
@@ -455,6 +455,22 @@ app.controller(
           Number.parseInt(JSON.stringify(data.eventDetails.manifest.applications[0].disk_quota).replace('M', ''));
         $rootScope.context_log_rate_limit +=
           Number.parseInt(JSON.stringify(data.eventDetails.manifest.applications[0]["log-rate-limit"]).replace('Kb', ''));
+        $rootScope.pieChartData = [{
+          id: 0,
+          label: 'slice 1',
+          value: 50,
+          color: 'blue',
+        }, {
+          id: 1,
+          label: 'slice 2',
+          value: 20,
+          color: 'black',
+        }, {
+          id: 2,
+          label: 'slice 3',
+          value: 30,
+          color: 'red',
+        }]
 
       });
 
@@ -500,7 +516,7 @@ app.controller(
     function createRoom(email) {
       if (socket) {
         socket.emit("create-room", {
-          channel: email,
+          channel: socket.id //email,
         });
       } else {
         console.log(
@@ -560,7 +576,6 @@ app.controller(
     $scope.FetchEvents = function () {
       $scope.spinner = true;
       var getURL = BASEURL + "/fetchevents";
-
       getURL = encodeURI(getURL);
       $http({
         method: "GET",
@@ -572,6 +587,30 @@ app.controller(
             "received response for scan: " + JSON.stringify(response)
           );
           $rootScope.scanData = response.data;
+        },
+        function errorCallback(error) {
+          console.log("Error doing top level scan - " + error);
+          $scope.spinner = false;
+        }
+      );
+    };
+
+    $scope.GetScanExcel = function () {
+      $scope.spinner = true;
+      var getURL = BASEURL + "/fullscanexcel";
+      getURL = encodeURI(getURL);
+      $http({
+        method: "GET",
+        url: getURL,
+      }).then(
+        function successCallback(response) {
+          console.log(JSON.stringify(response.data));
+          const blob = new Blob([response.data], { type: 'vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = 'data.xls';
+          link.click();
+          link.remove();
         },
         function errorCallback(error) {
           console.log("Error doing top level scan - " + error);
