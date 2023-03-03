@@ -1,6 +1,9 @@
 <html>
 
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
   <script type="text/javascript">
     var count = 0;
 
@@ -13,6 +16,7 @@
         document.getElementById("countDownText").innerHTML = ++count;
       }, 1000);
     }
+
   </script>
 
   <style>
@@ -36,11 +40,11 @@
       line-height: 150px;
       border-radius: 50%;
       font-size: 20px;
-      color: #fff;
+      color: #acd310;
       text-align: center;
       background: #000;
       /*border-image: linear-gradient(#f6b73c, #4d9f0c) 50; */
-      border-color: green;
+      border-color: rgb(7, 235, 7);
       border-width: 20px;
       border-style: solid;
     }
@@ -54,7 +58,7 @@
       text-align: center;
       background: #000;
       /*border-image: linear-gradient(#f6b73c, #4d9f0c) 50; */
-      border-color: #dfee10;
+      border-color: yellow;
       border-width: 20px;
       border-style: solid;
     }
@@ -82,7 +86,7 @@
       text-align: center;
       background: #000;
       /*border-image: linear-gradient(#f6b73c, #4d9f0c) 50; */
-      border-color: lightgoldenrodyellow;
+      border-color: rgb(177, 204, 22);
       border-width: 20px;
       border-style: solid;
     }
@@ -120,7 +124,6 @@
     h4 {
       color: rgb(46, 233, 17);
     }
-
   </style>
 </head>
 
@@ -131,9 +134,16 @@
   <p ng-repeat="row in scanData">
     {{scanData}}
   </p>
+  
   <div data-ng-init="setupWebSockets('init', null)" ng-show="showScanResults">
     <h4>Real Time Scan Results</h4>
     <img ng-src="{{getIconForFileType(context_source_type) || '' }}" class="img-thumbnail" />
+    <br>
+    <br>
+    <div class="w3-border" style="width: 1000px">
+      <div class="w3-yellow w3-center" style="width: {{context_scan_percentage}}%">{{context_scan_percentage}}%</div>
+    </div>
+    <br><br>
     <table>
       <tr style="border: thin solid rgb(220, 16, 16)">
         <td>

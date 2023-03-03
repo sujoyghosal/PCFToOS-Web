@@ -277,6 +277,9 @@ app.controller(
     $rootScope.context_memory = 0;
     $rootScope.context_disk_quota = 0;
     $rootScope.context_log_rate_limit = 0;
+    $rootScope.context_scan_percentage = 0;
+    $rootScope.context_file_number = 0;
+    $rootScope.context_total_files = 0;
     $scope.event_receive = {
       max_distance: 0,
       lng: 0,
@@ -384,6 +387,7 @@ app.controller(
       });
       socket.on("new-scan", (data) => {
         $rootScope.showScanResults = true;
+        $scope.spinner = false;
         Notification.info({
           message: "New Scan Data Arrived", //JSON.stringify(data),
           title: "New Scan",
@@ -399,7 +403,9 @@ app.controller(
         $rootScope.context_time = data.eventDetails.time_created;
         $rootScope.context_type = data.eventDetails.event_type;
         $rootScope.context_source_type = data.eventDetails.file_type;
+        $rootScope.context_total_files = data.eventDetails.total_files;
         $rootScope.context_file_number = data.eventDetails.file_number;
+        $rootScope.context_scan_percentage = Math.round(($rootScope.context_file_number / $rootScope.context_total_files) * 100);
         $rootScope.context_deps_count =
           Number.parseInt(data.eventDetails.results.count_of_dependencies);
         $rootScope.context_envvars_count =
@@ -596,27 +602,25 @@ app.controller(
     };
 
     $scope.GetScanExcel = function () {
-      $scope.spinner = true;
       var getURL = BASEURL + "/fullscanexcel";
-      getURL = encodeURI(getURL);
       $http({
-        method: "GET",
         url: getURL,
-      }).then(
-        function successCallback(response) {
-          console.log(JSON.stringify(response.data));
-          const blob = new Blob([response.data], { type: 'vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-          const link = document.createElement("a");
-          link.href = URL.createObjectURL(blob);
-          link.download = 'data.xls';
-          link.click();
-          link.remove();
+        method: "GET",
+        //data: json, //this is your json data string
+        headers: {
+          'Content-type': 'application/json'
         },
-        function errorCallback(error) {
-          console.log("Error doing top level scan - " + error);
-          $scope.spinner = false;
-        }
-      );
+        responseType: 'arraybuffer'
+      }).success(function (data, status, headers, config) {
+        $scope.spinner = false;
+        var blob = new Blob([data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+        var objectUrl = URL.createObjectURL(blob);
+        window.open(objectUrl);
+      }).error(function (data, status, headers, config) {
+        //upload failed
+        console.log("Error downloading file.")
+      });
+
     };
     $scope.getIconForFileType = function (type) {
       if (!type || type.length < 2) return;
