@@ -35,41 +35,9 @@ app.config([
         templateUrl: "Register.html",
         controller: "DashboardCtrl",
       })
-      .when("/getdonation", {
-        //templateUrl: "ListDonations.html",
-        templateUrl: "ViewOffers.html",
-        controller: "DashboardCtrl",
-      })
-      .when("/donationsaccepted", {
-        templateUrl: "MyPickupList.html",
-        controller: "DashboardCtrl",
-      })
-      .when("/offerdonation", {
-        templateUrl: "OfferDonation.html",
-        controller: "DashboardCtrl",
-      })
-      .when("/offershistory", {
-        templateUrl: "MyOffers.html",
-        controller: "DashboardCtrl",
-      })
-      .when("/createneed", {
-        templateUrl: "CreateNeed.html",
-        controller: "DashboardCtrl",
-      })
-      .when("/myneeds", {
-        templateUrl: "MyNeeds.html",
-        controller: "DashboardCtrl",
-      })
-      .when("/createemergency", {
-        templateUrl: "CreateEmergency.html",
-        controller: "DashboardCtrl",
-      })
-      .when("/viewneeds", {
-        templateUrl: "NeedsNearby.html",
-        controller: "DashboardCtrl",
-      })
-      .when("/viewemergencies", {
-        templateUrl: "ViewEmergencies.html",
+      .when("/notification", {
+        //templateUrl: "/Notification.html",
+        templateUrl: "Notification.html",
         controller: "DashboardCtrl",
       })
       .when("/settings", {
@@ -86,10 +54,6 @@ app.config([
       })
       .when("/notifications", {
         templateUrl: "Notifications.html",
-        controller: "DashboardCtrl",
-      })
-      .when("/eventsnearby", {
-        templateUrl: "MyNearbyEvents.html",
         controller: "DashboardCtrl",
       })
       .when("/resetpw", {
@@ -395,6 +359,7 @@ app.controller(
           positionX: "center",
           delay: 50000,
           replaceMessage: true,
+          templateUrl: 'notification'
         });
         console.log("Event received from server : " + JSON.stringify(data));
         $rootScope.scanData = "";
