@@ -154,6 +154,7 @@
       <div class="w3-center" style="background-color:#e4089e; width: {{context_scan_percentage}}%">{{context_scan_percentage}}%</div>
     </div>
     <br><br>
+    <h2>Scan Summary</h2>
     <table>
       <tr style="border: thin solid rgb(220, 16, 16)">
         <td>
@@ -189,10 +190,13 @@
           </div>
         </td>
       </tr>
-      <tr>
+    </table>
+    <h2>Container Instances Manifest Config</h2>
+    <table>
+      <tr style="border: thin solid rgb(220, 217, 16)">
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Instances Normal</h4>
+              <h4 align="center">Normal</h4>
               <div class="circle-green">
               <span id="countDownText">{{context_instances_normal}}</span>
               </div>
@@ -200,7 +204,7 @@
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Instances Medium High</h4>
+              <h4 align="center">Medium High</h4>
               <div class="circle-yellow">
               <span id="countDownText">{{context_instances_mh}}</span>
               </div>
@@ -208,7 +212,7 @@
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Instances High</h4>
+              <h4 align="center">High</h4>
               <div class="circle-pink">
               <span id="countDownText">{{context_instances_h}}</span>
               </div>
@@ -216,17 +220,21 @@
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Instances Very High</h4>
+              <h4 align="center">Very High</h4>
               <div class="circle-red">
               <span id="countDownText">{{context_instances_vh}}</span>
               </div>
           </div>
         </td>
       </tr>
-      <tr>
+    </table>
+    <br>
+    <h2>Container Memory Manifest Config</h2>
+    <table>
+      <tr style="border: thin solid rgb(220, 217, 16)">
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Memory Normal</h4>
+              <h4 align="center">Normal</h4>
               <div class="circle-green">
               <span id="countDownText">{{context_memory_normal}}</span>
               </div>
@@ -234,7 +242,7 @@
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Memory Medium High</h4>
+              <h4 align="center">Medium High</h4>
               <div class="circle-yellow">
               <span id="countDownText">{{context_memory_mh}}</span>
               </div>
@@ -242,7 +250,7 @@
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Memory High</h4>
+              <h4 align="center">High</h4>
               <div class="circle-pink">
               <span id="countDownText">{{context_memory_h}}</span>
               </div>
@@ -250,17 +258,21 @@
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Memory Very High</h4>
+              <h4 align="center">Very High</h4>
               <div class="circle-red">
               <span id="countDownText">{{context_memory_vh}}</span>
               </div>
           </div>
         </td>
       </tr>
-      <tr>
+    </table>
+    <br>
+    <h2>Container Disk Quota</h2>
+    <table>
+      <tr style="border: thin solid rgb(220, 217, 16)">
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Disk Quota Normal</h4>
+              <h4 align="center">Normal</h4>
               <div class="circle-green">
               <span id="countDownText">{{context_dq_normal}}</span>
               </div>
@@ -268,7 +280,7 @@
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Disk Quota Medium High</h4>
+              <h4 align="center">Medium High</h4>
               <div class="circle-yellow">
               <span id="countDownText">{{context_dq_mh}}</span>
               </div>
@@ -276,7 +288,7 @@
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Disk Quota High</h4>
+              <h4 align="center">High</h4>
               <div class="circle-pink">
               <span id="countDownText">{{context_dq_h}}</span>
               </div>
@@ -284,17 +296,21 @@
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Disk Quota Very High</h4>
+              <h4 align="center">Very High</h4>
               <div class="circle-red">
               <span id="countDownText">{{context_dq_vh}}</span>
               </div>
           </div>
         </td>
       </tr>
-      <tr>
+    </table>
+    <br>
+    <h2>Container Log Rate Limit</h2>
+    <table>
+      <tr style="border: thin solid rgb(220, 217, 16)">
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Log Rate Limit Normal</h4>
+              <h4 align="center">Normal</h4>
               <div class="circle-green">
               <span id="countDownText">{{context_lrl_normal}}</span>
               </div>
@@ -302,7 +318,7 @@
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Log Rate Limit Medium High</h4>
+              <h4 align="center">Medium High</h4>
               <div class="circle-yellow">
               <span id="countDownText">{{context_lrl_mh}}</span>
               </div>
@@ -310,7 +326,7 @@
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Log Rate Limit High</h4>
+              <h4 align="center">High</h4>
               <div class="circle-pink">
               <span id="countDownText">{{context_lrl_h}}</span>
               </div>
@@ -318,7 +334,7 @@
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Log Rate Limit Very High</h4>
+              <h4 align="center">Very High</h4>
               <div class="circle-red">
               <span id="countDownText">{{context_lrl_vh}}</span>
               </div>
