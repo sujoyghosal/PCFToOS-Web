@@ -139,7 +139,7 @@
 
 <body ng-controller="DashboardCtrl">
   <h2>PCF to OpenShift App - Discovery Dashboard</h2>
-  <button type="button" class="btn btn-success btn-xl" ng-click="GetScanExcel(); spinner=true;">Download Last Scan Data</button>
+  <button type="button" class="btn btn-success btn-xl" ng-click="GetScanExcel('fullscan'); spinner=true;">Download Last Scan Data</button>
   <div ng-show="spinner"><i class="fa fa-cog fa-spin" style="font-size:48px;color:red"></i></div>
   <p ng-repeat="row in scanData">
     {{scanData}}
@@ -173,7 +173,7 @@
               </div>
           </div>
         </td>
-        <td>
+        <td ng-hide="context_source_type=='java">
           <div class="wrapper">
               <h4 align="center">Env Vars Detected</h4>
               <div class="circle">
@@ -181,7 +181,7 @@
               </div>
           </div>
         </td>
-        <td>
+        <td ng-hide="context_source_type=='java">
           <div class="wrapper">
               <h4 align="center">VCAP Env Vars Detected</h4>
               <div class="circle">
@@ -197,7 +197,7 @@
         <td>
           <div class="wrapper">
               <h4 align="center">Normal</h4>
-              <div class="circle-green">
+              <div class="circle-green" ng-click="GetScanExcel('normalinstances')">
               <span id="countDownText">{{context_instances_normal}}</span>
               </div>
           </div>
@@ -205,7 +205,7 @@
         <td>
           <div class="wrapper">
               <h4 align="center">Medium High</h4>
-              <div class="circle-yellow">
+              <div class="circle-yellow" ng-click="GetScanExcel('mediumhighinstances')">
               <span id="countDownText">{{context_instances_mh}}</span>
               </div>
           </div>
@@ -213,7 +213,7 @@
         <td>
           <div class="wrapper">
               <h4 align="center">High</h4>
-              <div class="circle-pink">
+              <div class="circle-pink" ng-click="GetScanExcel('highinstances')">
               <span id="countDownText">{{context_instances_h}}</span>
               </div>
           </div>
@@ -221,7 +221,7 @@
         <td>
           <div class="wrapper">
               <h4 align="center">Very High</h4>
-              <div class="circle-red">
+              <div class="circle-red" ng-click="GetScanExcel('veryhighinstances')">
               <span id="countDownText">{{context_instances_vh}}</span>
               </div>
           </div>
@@ -235,7 +235,7 @@
         <td>
           <div class="wrapper">
               <h4 align="center">Normal</h4>
-              <div class="circle-green">
+              <div class="circle-green" ng-click="GetScanExcel('normalmemory')">
               <span id="countDownText">{{context_memory_normal}}</span>
               </div>
           </div>
@@ -243,7 +243,7 @@
         <td>
           <div class="wrapper">
               <h4 align="center">Medium High</h4>
-              <div class="circle-yellow">
+              <div class="circle-yellow" ng-click="GetScanExcel('mediumhighmemory')">
               <span id="countDownText">{{context_memory_mh}}</span>
               </div>
           </div>
@@ -251,7 +251,7 @@
         <td>
           <div class="wrapper">
               <h4 align="center">High</h4>
-              <div class="circle-pink">
+              <div class="circle-pink" ng-click="GetScanExcel('highmemory')">
               <span id="countDownText">{{context_memory_h}}</span>
               </div>
           </div>
@@ -259,7 +259,7 @@
         <td>
           <div class="wrapper">
               <h4 align="center">Very High</h4>
-              <div class="circle-red">
+              <div class="circle-red" ng-click="GetScanExcel('veryhighmemory')">
               <span id="countDownText">{{context_memory_vh}}</span>
               </div>
           </div>

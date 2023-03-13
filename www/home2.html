@@ -1,6 +1,9 @@
 <html>
 
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
   <script type="text/javascript">
     var count = 0;
 
@@ -13,6 +16,7 @@
         document.getElementById("countDownText").innerHTML = ++count;
       }, 1000);
     }
+
   </script>
 
   <style>
@@ -36,11 +40,11 @@
       line-height: 150px;
       border-radius: 50%;
       font-size: 20px;
-      color: #fff;
+      color: #acd310;
       text-align: center;
       background: #000;
       /*border-image: linear-gradient(#f6b73c, #4d9f0c) 50; */
-      border-color: green;
+      border-color: rgb(7, 235, 7);
       border-width: 20px;
       border-style: solid;
     }
@@ -54,7 +58,7 @@
       text-align: center;
       background: #000;
       /*border-image: linear-gradient(#f6b73c, #4d9f0c) 50; */
-      border-color: #dfee10;
+      border-color: yellow;
       border-width: 20px;
       border-style: solid;
     }
@@ -72,24 +76,25 @@
       border-width: 20px;
       border-style: solid;
     }
-    .circle-lightyellow {
+    .circle-pink {
       width: 200px;
       height: 200px;
       line-height: 150px;
       border-radius: 50%;
       font-size: 20px;
-      color: #fff;
+      color: #e4089e;
       text-align: center;
       background: #000;
       /*border-image: linear-gradient(#f6b73c, #4d9f0c) 50; */
-      border-color: lightgoldenrodyellow;
+      border-color: #f0063d;
       border-width: 20px;
       border-style: solid;
     }
     #countDownText {
       font-size: 50px;
-      font-weight: bold;
+      font-weight:700;
       color: rgb(22, 190, 208);
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   /*    -webkit-animation: glow 1s ease-in-out infinite alternate;
       -moz-animation: glow 1s ease-in-out infinite alternate;
       animation: glow 1s ease-in-out infinite alternate;*/
@@ -115,25 +120,41 @@
       background-color: #000007;
     }
 
-    p,
-    h2,
+    
+    h2 {
+      color: rgb(46, 233, 17);
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      font-size: large;
+      font-weight: 500;
+    }
     h4 {
       color: rgb(46, 233, 17);
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      font-size: medium;
+      font-weight: 200;
     }
-
+    
   </style>
 </head>
 
 <body ng-controller="DashboardCtrl">
-  <h4>PCF to OpenShift App - Discovery Dashboard</h4>
-  <button type="button" class="btn btn-success btn-xl" ng-click="GetScanExcel(); spinner=true;">Fetch Last Scan Data</button>
+  <h2>PCF to OpenShift App - Discovery Dashboard</h2>
+  <button type="button" class="btn btn-success btn-xl" ng-click="GetScanExcel('fullscan'); spinner=true;">Download Last Scan Data</button>
   <div ng-show="spinner"><i class="fa fa-cog fa-spin" style="font-size:48px;color:red"></i></div>
   <p ng-repeat="row in scanData">
     {{scanData}}
   </p>
+  
   <div data-ng-init="setupWebSockets('init', null)" ng-show="showScanResults">
     <h4>Real Time Scan Results</h4>
     <img ng-src="{{getIconForFileType(context_source_type) || '' }}" class="img-thumbnail" />
+    <br>
+    <br>
+    <div class="w3-border" style="width: 1000px">
+      <div class="w3-center" style="background-color:#e4089e; width: {{context_scan_percentage}}%">{{context_scan_percentage}}%</div>
+    </div>
+    <br><br>
+    <h2>Scan Summary</h2>
     <table>
       <tr style="border: thin solid rgb(220, 16, 16)">
         <td>
@@ -169,78 +190,89 @@
           </div>
         </td>
       </tr>
-      <tr>
+    </table>
+    <h2>Container Instances Manifest Config</h2>
+    <table>
+      <tr style="border: thin solid rgb(220, 217, 16)">
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Instances Normal</h4>
-              <div class="circle-green">
+              <h4 align="center">Normal</h4>
+              <div class="circle-green" ng-click="GetScanExcel('normalinstances')">
               <span id="countDownText">{{context_instances_normal}}</span>
               </div>
           </div>
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Instances Medium High</h4>
-              <div class="circle-lightyellow">
+              <h4 align="center">Medium High</h4>
+              <div class="circle-yellow" ng-click="GetScanExcel('mediumhighinstances')">
               <span id="countDownText">{{context_instances_mh}}</span>
               </div>
           </div>
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Instances High</h4>
-              <div class="circle-yellow">
+              <h4 align="center">High</h4>
+              <div class="circle-pink" ng-click="GetScanExcel('highinstances')">
               <span id="countDownText">{{context_instances_h}}</span>
               </div>
           </div>
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Instances Very High</h4>
-              <div class="circle-red">
+              <h4 align="center">Very High</h4>
+              <div class="circle-red" ng-click="GetScanExcel('veryhighinstances')">
               <span id="countDownText">{{context_instances_vh}}</span>
               </div>
           </div>
         </td>
       </tr>
-      <tr>
+    </table>
+    <br>
+    <h2>Container Memory Manifest Config</h2>
+    <table>
+      <tr style="border: thin solid rgb(220, 217, 16)">
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Memory Normal</h4>
-              <div class="circle-green">
+              <h4 align="center">Normal</h4>
+              <div class="circle-green" ng-click="GetScanExcel('normalmemory')">
               <span id="countDownText">{{context_memory_normal}}</span>
               </div>
           </div>
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Memory Medium High</h4>
-              <div class="circle-lightyellow">
+              <h4 align="center">Medium High</h4>
+              <div class="circle-yellow" ng-click="GetScanExcel('mediumhighmemory')">
               <span id="countDownText">{{context_memory_mh}}</span>
               </div>
           </div>
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Memory High</h4>
-              <div class="circle-yellow">
+              <h4 align="center">High</h4>
+              <div class="circle-pink" ng-click="GetScanExcel('highmemory')">
               <span id="countDownText">{{context_memory_h}}</span>
               </div>
           </div>
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Memory Very High</h4>
-              <div class="circle-red">
+              <h4 align="center">Very High</h4>
+              <div class="circle-red" ng-click="GetScanExcel('veryhighmemory')">
               <span id="countDownText">{{context_memory_vh}}</span>
               </div>
           </div>
         </td>
       </tr>
-      <tr>
+    </table>
+    <br>
+    <h2>Container Disk Quota</h2>
+    <table>
+      <tr style="border: thin solid rgb(220, 217, 16)">
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Disk Quota Normal</h4>
+              <h4 align="center">Normal</h4>
               <div class="circle-green">
               <span id="countDownText">{{context_dq_normal}}</span>
               </div>
@@ -248,33 +280,37 @@
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Disk Quota Medium High</h4>
-              <div class="circle-lightyellow">
+              <h4 align="center">Medium High</h4>
+              <div class="circle-yellow">
               <span id="countDownText">{{context_dq_mh}}</span>
               </div>
           </div>
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Disk Quota High</h4>
-              <div class="circle-yellow">
+              <h4 align="center">High</h4>
+              <div class="circle-pink">
               <span id="countDownText">{{context_dq_h}}</span>
               </div>
           </div>
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Disk Quota Very High</h4>
+              <h4 align="center">Very High</h4>
               <div class="circle-red">
               <span id="countDownText">{{context_dq_vh}}</span>
               </div>
           </div>
         </td>
       </tr>
-      <tr>
+    </table>
+    <br>
+    <h2>Container Log Rate Limit</h2>
+    <table>
+      <tr style="border: thin solid rgb(220, 217, 16)">
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Log Rate Limit Normal</h4>
+              <h4 align="center">Normal</h4>
               <div class="circle-green">
               <span id="countDownText">{{context_lrl_normal}}</span>
               </div>
@@ -282,23 +318,23 @@
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Log Rate Limit Medium High</h4>
-              <div class="circle-lightyellow">
+              <h4 align="center">Medium High</h4>
+              <div class="circle-yellow">
               <span id="countDownText">{{context_lrl_mh}}</span>
               </div>
           </div>
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Log Rate Limit High</h4>
-              <div class="circle-yellow">
+              <h4 align="center">High</h4>
+              <div class="circle-pink">
               <span id="countDownText">{{context_lrl_h}}</span>
               </div>
           </div>
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Container Log Rate Limit Very High</h4>
+              <h4 align="center">Very High</h4>
               <div class="circle-red">
               <span id="countDownText">{{context_lrl_vh}}</span>
               </div>

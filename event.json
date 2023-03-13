@@ -1,45 +1,51 @@
 {
-    "event_id": "63fed5bcf3050195d51d546a",
+    "event_id": 23347,
     "eventDetails": {
-        "scan_id": 13136,
-        "time_created": "Wed Mar  1 10:03:56 IST 2023",
+        "scan_id": 23347,
+        "time_created": "Mon Mar 13 09:41:54 IST 2023",
         "event_type": "top level scan",
         "file_type": "javascript",
-        "file_number": 50,
-        "results": {
+        "total_files": 494,
+        "file_number": 45,
+        "file_details": {
             "type": "javascript",
-            "file": "node-samples/project12410/node-sample-code12410.js",
+            "file": "node-samples/project20793/node-sample-code20793.js",
             "dependencies": [
                 "http",
                 "express",
                 "mongodb",
                 "fs",
-                "cors"
+                "cors",
+                "body-parser",
+                "socket.io"
             ],
-            "count_of_dependencies": 5,
+            "count_of_dependencies": 9,
             "env_vars": [
                 "PORT",
-                "VCAP_URL25607",
-                "DB_URL25607"
+                "VCAP_URL23982",
+                "DB_URL23982",
+                "VCAP_URL5463",
+                "DB_URL5463"
             ],
-            "env_vars_count": 3,
+            "env_vars_count": 141,
             "vcap_env_vars": [
-                "VCAP_URL25607"
+                "VCAP_URL23982",
+                "VCAP_URL5463"
             ],
-            "vcap_env_vars_count": 1
+            "vcap_env_vars_count": 70
         },
         "manifest": {
             "version": 1,
             "applications": [
                 {
-                    "name": "my-app-12410",
-                    "memory": "128M",
-                    "instances": 2,
+                    "name": "my-app-20793",
+                    "memory": "1024M",
+                    "instances": 5,
                     "disk_quota": "1024M",
                     "buildpacks": [
                         "https://github.com/cloudfoundry/nodejs-buildpack.git"
                     ],
-                    "log-rate-limit": "49Kb",
+                    "log-rate-limit": "43Kb",
                     "stack": "cflinuxfs3",
                     "health-check-type": "http",
                     "health-check-http-endpoint": "/health",
@@ -65,12 +71,12 @@
             ]
         },
         "packagejson": {
-            "name": "sample-node12410",
+            "name": "sample-node20793",
             "version": "0.0.0",
             "description": "PCF to OpenShift Accelerator API",
-            "main": "sample-node12410.js",
+            "main": "sample-node20793.js",
             "scripts": {
-                "start": "node sample-node12410.js"
+                "start": "node sample-code20793.js"
             },
             "dependencies": {
                 "@google-cloud/compute": "^3.7.0",
@@ -84,7 +90,6 @@
                 "request": "2.88.2",
                 "socket.io": "4.5.0"
             }
-        },
-        "_id": "63fed5bcf3050195d51d546a"
+        }
     }
-} (myappangular.js, line 377)
+}

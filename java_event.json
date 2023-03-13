@@ -1,0 +1,97 @@
+{
+    "event_id": 20238,
+    "eventDetails": {
+        "scan_id": 20238,
+        "time_created": "Mon Mar 13 11:40:29 IST 2023",
+        "event_type": "top level scan",
+        "file_type": "javas",
+        "total_files": 165,
+        "file_number": 165,
+        "file_details": {
+            "type": "java",
+            "file": "java-samples/project383/pom.xml",
+            "dependencies": [
+                "spring-boot-starter-parent",
+                "boot-demo",
+                "spring-boot-starter-web",
+                "spring-boot-starter-test",
+                "spring-boot-maven-plugin"
+            ],
+            "count_of_dependencies": 5,
+            "env_vars": [
+                {
+                    "name": "cf-env-test",
+                    "label": "user-provided",
+                    "tags": [],
+                    "credentials": {
+                        "database": "database",
+                        "password": "passw0rd",
+                        "url": "https://example.com/",
+                        "username": "userid"
+                    },
+                    "syslog_drain_url": "http://example.com/syslog"
+                }
+            ],
+            "env_vars_count": 9,
+            "vcap_env_vars": {
+                "application_name": "my-java-app-383",
+                "application_uris": [
+                    "my-app.example.com"
+                ],
+                "application_version": "7d0d64be-7f6f-406a-9d21-504643147d63",
+                "limits": {
+                    "disk": 1024,
+                    "fds": 16384,
+                    "mem": 256
+                },
+                "name": "my-java-app-383",
+                "organization_id": "c0134bad-97a9-468d-ab9d-e97547e3aed5",
+                "organization_name": "my-org",
+                "space_id": "37189599-2407-9946-865e-8ebd0e2df89a",
+                "space_name": "dev",
+                "uris": [
+                    "my-app.example.com"
+                ],
+                "users": null,
+                "version": "7d0d64be-7f6f-406a-9d21-504643147d63"
+            },
+            "vcap_env_vars_count": 15
+        },
+        "manifest": {
+            "version": 1,
+            "applications": [
+                {
+                    "name": "my-java-app-383",
+                    "memory": "1024M",
+                    "instances": 5,
+                    "disk_quota": "1024M",
+                    "buildpacks": [
+                        "https://github.com/cloudfoundry/java-buildpack.git"
+                    ],
+                    "log-rate-limit": "6Kb",
+                    "stack": "cflinuxfs3",
+                    "health-check-type": "http",
+                    "health-check-http-endpoint": "/health",
+                    "health-check-invocation-timeout": 30,
+                    "env": {
+                        "RAILS_ENV": "production",
+                        "RACK_ENV": "production"
+                    },
+                    "metadata": {
+                        "annotations": {
+                            "contact": "bob@example.com jane@example.com"
+                        },
+                        "labels:": {
+                            "sensitive": true,
+                            "no-route": true
+                        }
+                    },
+                    "routes": {
+                        "route": "example.com",
+                        "protocol": "http2"
+                    }
+                }
+            ]
+        }
+    }
+}

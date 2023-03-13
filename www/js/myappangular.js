@@ -220,6 +220,7 @@ app.controller(
     $scope.targetLang = "hi-IN";
     $rootScope.scanData = "";
     $rootScope.context_envvars_count = 0;
+    $rootScope.context_scan_id = 0;
     $rootScope.context_vcap_envvars_count = 0;
     $rootScope.context_deps_count = 0;
     $rootScope.context_instances_normal = 0;
@@ -346,11 +347,44 @@ app.controller(
         //$route.reload();
       });
       //var socket = io("http://localhost:5555");
-      socket.on("event", (data) => {
-        console.log("Received server event named 'event'");
+      socket.on("new-event", (data) => {
+        $rootScope.scanData = "";
+        $rootScope.context_scan_id = 0;
+        $rootScope.context_envvars_count = 0;
+        $rootScope.context_vcap_envvars_count = 0;
+        $rootScope.context_deps_count = 0;
+        $rootScope.context_instances_normal = 0;
+        $rootScope.context_instances_mh = 0;
+        $rootScope.context_instances_h = 0;
+        $rootScope.context_instances_vh = 0;
+        $rootScope.context_memory_normal = 0;
+        $rootScope.context_memory_mh = 0;
+        $rootScope.context_memory_h = 0;
+        $rootScope.context_memory_vh = 0;
+        $rootScope.context_dq_normal = 0;
+        $rootScope.context_dq_mh = 0;
+        $rootScope.context_dq_h = 0;
+        $rootScope.context_dq_vh = 0;
+        $rootScope.context_lrl_normal = 0;
+        $rootScope.context_lrl_mh = 0;
+        $rootScope.context_lrl_h = 0;
+        $rootScope.context_lrl_vh = 0;
+        $rootScope.context_memory = 0;
+        $rootScope.context_disk_quota = 0;
+        $rootScope.context_log_rate_limit = 0;
+        $rootScope.context_scan_percentage = 0;
+        $rootScope.context_file_number = 0;
+        $rootScope.context_total_files = 0;
+        if (confirm("New Scan Event Detected in Backend - do you want to see live scan data?")) {
+          console.log("Live Scan Data Being Shown..");
+          $rootScope.showScanResults = true;
+        } else {
+          $rootScope.showScanResults = false;
+        }
       });
       socket.on("new-scan", (data) => {
-        $rootScope.showScanResults = true;
+
+        //$rootScope.showScanResults = true;
         $scope.spinner = false;
         Notification.info({
           message: "New Scan Data Arrived", //JSON.stringify(data),
@@ -363,20 +397,21 @@ app.controller(
         });
         console.log("Event received from server : " + JSON.stringify(data));
         $rootScope.scanData = "";
-        $rootScope.myText = data.eventDetails.results;
+        $rootScope.myText = data.eventDetails.file_details;
         $rootScope.context_email = data.eventDetails.email;
+        $rootScope.context_scan_id = data.eventDetails.scan_id;
         $rootScope.context_time = data.eventDetails.time_created;
         $rootScope.context_type = data.eventDetails.event_type;
         $rootScope.context_source_type = data.eventDetails.file_type;
         $rootScope.context_total_files = data.eventDetails.total_files;
         $rootScope.context_file_number = data.eventDetails.file_number;
         $rootScope.context_scan_percentage = Math.round(($rootScope.context_file_number / $rootScope.context_total_files) * 100);
-        $rootScope.context_deps_count =
-          Number.parseInt(data.eventDetails.results.count_of_dependencies);
-        $rootScope.context_envvars_count =
-          Number.parseInt(data.eventDetails.results.env_vars_count);
-        $rootScope.context_vcap_envvars_count =
-          Number.parseInt(data.eventDetails.results.vcap_env_vars_count);
+        $rootScope.context_deps_count +=
+          Number.parseInt(data.eventDetails.file_details.count_of_dependencies);
+        $rootScope.context_envvars_count +=
+          Number.parseInt(data.eventDetails.file_details.env_vars_count);
+        $rootScope.context_vcap_envvars_count +=
+          Number.parseInt(data.eventDetails.file_details.vcap_env_vars_count);
 
 
         var ci = Number.parseInt(data.eventDetails.manifest.applications[0].instances);
@@ -384,22 +419,22 @@ app.controller(
           $rootScope.context_instances_normal++;
         if (ci > 2 && ci <= 4)
           $rootScope.context_instances_mh++;
-        if (ci > 4 && ci <= 5)
+        if (ci > 4 && ci <= 6)
           $rootScope.context_instances_h++;
-        if (ci > 5)
+        if (ci > 6)
           $rootScope.context_instances_vh++;
 
-        var m = Number.parseInt(data.eventDetails.manifest.applications[0].memory.replace('M', ''));
-        if (m > 0 && m <= 128)
+        var m = Number.parseInt(data.eventDetails.manifest.applications[0].memory.replace(/\D/g, ''));
+        if (m > 0 && m <= 256)
           $rootScope.context_memory_normal++;
-        if (m > 128 && m <= 256)
-          $rootScope.context_memory_mh++;
         if (m > 256 && m <= 512)
+          $rootScope.context_memory_mh++;
+        if (m > 512 && m <= 1024)
           $rootScope.context_memory_h++;
-        if (m > 512)
+        if (m > 1024)
           $rootScope.context_memory_vh++;
 
-        var dq = Number.parseInt(data.eventDetails.manifest.applications[0].disk_quota.replace('M', ''));
+        var dq = Number.parseInt(data.eventDetails.manifest.applications[0].disk_quota.replace(/\D/g, ''));
         if (dq > 0 && dq <= 1024)
           $rootScope.context_dq_normal++;
         if (dq > 1024 && dq <= 2048)
@@ -409,7 +444,7 @@ app.controller(
         if (dq > 3072)
           $rootScope.context_dq_vh++;
 
-        var lrl = Number.parseInt(JSON.stringify(data.eventDetails.manifest.applications[0]["log-rate-limit"]).replace('Kb', '').replace('"', ''));
+        var lrl = Number.parseInt(JSON.stringify(data.eventDetails.manifest.applications[0]["log-rate-limit"]).replace(/\D/g, '').replace('"', ''));
         console.log("####LRL=" + lrl)
         if (lrl > 0 && lrl <= 20)
           $rootScope.context_lrl_normal++;
@@ -421,27 +456,11 @@ app.controller(
           $rootScope.context_lrl_vh++;
 
         $rootScope.context_memory +=
-          Number.parseInt(data.eventDetails.manifest.applications[0].memory.replace('M', ''));
+          Number.parseInt(data.eventDetails.manifest.applications[0].memory.replace(/\D/g, ''));
         $rootScope.context_disk_quota +=
-          Number.parseInt(JSON.stringify(data.eventDetails.manifest.applications[0].disk_quota).replace('M', ''));
+          Number.parseInt(JSON.stringify(data.eventDetails.manifest.applications[0].disk_quota).replace(/\D/g, ''));
         $rootScope.context_log_rate_limit +=
-          Number.parseInt(JSON.stringify(data.eventDetails.manifest.applications[0]["log-rate-limit"]).replace('Kb', ''));
-        $rootScope.pieChartData = [{
-          id: 0,
-          label: 'slice 1',
-          value: 50,
-          color: 'blue',
-        }, {
-          id: 1,
-          label: 'slice 2',
-          value: 20,
-          color: 'black',
-        }, {
-          id: 2,
-          label: 'slice 3',
-          value: 30,
-          color: 'red',
-        }]
+          Number.parseInt(JSON.stringify(data.eventDetails.manifest.applications[0]["log-rate-limit"]).replace(/\D/g, ''));
 
       });
 
@@ -566,8 +585,31 @@ app.controller(
       );
     };
 
-    $scope.GetScanExcel = function () {
-      var getURL = BASEURL + "/fullscanexcel";
+    $scope.GetScanExcel = function (context) {
+      if (!context || context.length == 0) {
+        context = "fullscan"
+      }
+      var getURL = BASEURL;
+      if (context == 'fullscan') {
+        getURL += "/fullscanexcel";
+      } else if (context == 'veryhighinstances') {
+        getURL += "/getEventsForInstances?type=vh&scan_id=" + $rootScope.context_scan_id;
+      } else if (context == 'highinstances') {
+        getURL += "/getEventsForInstances?type=h&scan_id=" + $rootScope.context_scan_id;
+      } else if (context == 'mediumhighinstances') {
+        getURL += "/getEventsForInstances?type=mh&scan_id=" + $rootScope.context_scan_id;
+      } else if (context == 'normalinstances') {
+        getURL += "/getEventsForInstances?type=n&scan_id=" + $rootScope.context_scan_id;
+      } else if (context == 'veryhighmemory') {
+        getURL += "/getEventsForMemory?type=vh&scan_id=" + $rootScope.context_scan_id;
+      } else if (context == 'highmemory') {
+        getURL += "/getEventsForMemory?type=h&scan_id=" + $rootScope.context_scan_id;
+      } else if (context == 'mediumhighmemory') {
+        getURL += "/getEventsForMemory?type=mh&scan_id=" + $rootScope.context_scan_id;
+      } else if (context == 'normalmemory') {
+        getURL += "/getEventsForMemory?type=n&scan_id=" + $rootScope.context_scan_id;
+      }
+
       $http({
         url: getURL,
         method: "GET",
