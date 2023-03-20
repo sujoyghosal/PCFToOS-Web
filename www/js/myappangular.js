@@ -268,6 +268,7 @@ app.controller(
             "/resetpw" !== $location.path() && "/updatepassword" !== $location.path());*/
       return true;
     };
+
     $rootScope.$on("CallGetEventsMethod", function () {
       $scope.GetEventsForUser(true);
     });
@@ -302,10 +303,6 @@ app.controller(
         return;
       }
     });
-
-
-
-    //Google
     $scope.events = [];
     $scope.setupWebSockets = function (purpose, arg) {
       socket = io(BASEURL, {
@@ -324,6 +321,10 @@ app.controller(
         socket.emit("send-login", {
           userInfo: UserService.getLoggedIn(),
         });
+      });
+      socket.on("init-event", (data) => {
+        $rootScope.context_scan_id = data.last_scan_id;
+        console.log("Got last scan event id from server as " + $rootScope.context_scan_id);
       });
       socket.on("loggedin-users", (data) => {
         $rootScope.loggedinUsers = data.currentUsers;
@@ -584,14 +585,36 @@ app.controller(
         }
       );
     };
+    $scope.GetLastScanID = function () {
+      $scope.spinner = true;
+      var getURL = BASEURL + "/getlastscanid";
+      getURL = encodeURI(getURL);
+      $http({
+        method: "GET",
+        url: getURL,
+      }).then(
+        function successCallback(response) {
+          $scope.spinner = false;
+          $rootScope.context_scan_id = response.data[0].scan_id;
+          console.log(
+            "Last Scan ID=" + $rootScope.context_scan_id
+          );
 
+        },
+        function errorCallback(error) {
+          console.log("Error doing top level scan - " + error);
+          $scope.spinner = false;
+        }
+      );
+    };
+    $scope.GetLastScanID();
     $scope.GetScanExcel = function (context) {
       if (!context || context.length == 0) {
         context = "fullscan"
       }
       var getURL = BASEURL;
       if (context == 'fullscan') {
-        getURL += "/fullscanexcel";
+        getURL += "/topscan?scan_id=" + $rootScope.context_scan_id;
       } else if (context == 'veryhighinstances') {
         getURL += "/getEventsForInstances?type=vh&scan_id=" + $rootScope.context_scan_id;
       } else if (context == 'highinstances') {
