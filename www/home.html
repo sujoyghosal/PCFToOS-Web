@@ -72,7 +72,7 @@
       text-align: center;
       background: #000;
       /*border-image: linear-gradient(#f6b73c, #4d9f0c) 50; */
-      border-color: red;
+      border-color: rgb(241, 7, 7);
       border-width: 20px;
       border-style: solid;
     }
@@ -86,14 +86,16 @@
       text-align: center;
       background: #000;
       /*border-image: linear-gradient(#f6b73c, #4d9f0c) 50; */
-      border-color: #f0063d;
+      /*border-color: #f0063d;*/
+      border-color: #e4089e;
       border-width: 20px;
       border-style: solid;
     }
     #countDownText {
       font-size: 50px;
       font-weight:700;
-      color: rgb(22, 190, 208);
+      /*color: rgb(22, 190, 208);*/
+      color: #0881e4;
       font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   /*    -webkit-animation: glow 1s ease-in-out infinite alternate;
       -moz-animation: glow 1s ease-in-out infinite alternate;
@@ -125,7 +127,7 @@
       color: rgb(46, 233, 17);
       font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
       font-size: large;
-      font-weight: 500;
+      font-weight: 200;
     }
     h4 {
       color: rgb(46, 233, 17);
@@ -133,12 +135,17 @@
       font-size: medium;
       font-weight: 200;
     }
+    h1 {
+      color: rgb(46, 233, 17);
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      font-weight: 200;
+    }
     
   </style>
 </head>
 
 <body ng-controller="DashboardCtrl">
-  <h2>PCF to OpenShift App - Discovery Dashboard</h2>
+  <h1>PCF to OpenShift Migration App - Discovery Dashboard</h1>
   <button type="button" class="btn btn-success btn-xl" ng-click="GetScanExcel('fullscan'); spinner=true;">Download Last Scan Data</button>
   <div ng-show="spinner"><i class="fa fa-cog fa-spin" style="font-size:48px;color:red"></i></div>
   <p ng-repeat="row in scanData">
@@ -151,10 +158,10 @@
     <br>
     <br>
     <div class="w3-border" style="width: 1000px">
-      <div class="w3-center" style="background-color:#e4089e; width: {{context_scan_percentage}}%">{{context_scan_percentage}}%</div>
+      <div class="w3-center" style="background-color:#e4089e; width: {{context_scan_percentage}}%"><font face = "arial,helvetica" color="white">{{context_scan_percentage}}%</font></div>
     </div>
     <br><br>
-    <h2>Scan Summary</h2>
+    <h4>Scan Summary</h4>
     <table>
       <tr style="border: thin solid rgb(220, 16, 16)">
         <td>
@@ -191,7 +198,8 @@
         </td>
       </tr>
     </table>
-    <h2>Container Instances Manifest Config</h2>
+    <br>
+    <h4>Container Instances Manifest Config</h4>
     <table>
       <tr style="border: thin solid rgb(220, 217, 16)">
         <td>
@@ -220,7 +228,7 @@
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Very High</h4>
+              <h4 align="center">Very High &#x1F525;</h4>
               <div class="circle-red" ng-click="GetScanExcel('veryhighinstances')">
               <span id="countDownText">{{context_instances_vh}}</span>
               </div>
@@ -229,7 +237,7 @@
       </tr>
     </table>
     <br>
-    <h2>Container Memory Manifest Config</h2>
+    <h4>Container Memory Manifest Config</h4>
     <table>
       <tr style="border: thin solid rgb(220, 217, 16)">
         <td>
@@ -258,7 +266,7 @@
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Very High</h4>
+              <h4 align="center">Very High &#x1F525;</h4>
               <div class="circle-red" ng-click="GetScanExcel('veryhighmemory')">
               <span id="countDownText">{{context_memory_vh}}</span>
               </div>
@@ -267,7 +275,7 @@
       </tr>
     </table>
     <br>
-    <h2>Container Disk Quota</h2>
+    <h4>Container Disk Quota</h4>
     <table>
       <tr style="border: thin solid rgb(220, 217, 16)">
         <td>
@@ -296,7 +304,7 @@
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Very High</h4>
+              <h4 align="center">Very High &#x1F525;</h4>
               <div class="circle-red">
               <span id="countDownText">{{context_dq_vh}}</span>
               </div>
@@ -305,7 +313,7 @@
       </tr>
     </table>
     <br>
-    <h2>Container Log Rate Limit</h2>
+    <h4>Container Log Rate Limit</h4>
     <table>
       <tr style="border: thin solid rgb(220, 217, 16)">
         <td>
@@ -334,7 +342,7 @@
         </td>
         <td>
           <div class="wrapper">
-              <h4 align="center">Very High</h4>
+              <h4 align="center">Very High &#x1F525;</h4>
               <div class="circle-red">
               <span id="countDownText">{{context_lrl_vh}}</span>
               </div>

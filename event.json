@@ -1,15 +1,15 @@
 {
-    "event_id": 23347,
+    "event_id": 2703,
     "eventDetails": {
-        "scan_id": 23347,
-        "time_created": "Mon Mar 13 09:41:54 IST 2023",
+        "scan_id": 2703,
+        "time_created": "Mon Mar 20 12:13:20 IST 2023",
         "event_type": "top level scan",
         "file_type": "javascript",
-        "total_files": 494,
-        "file_number": 45,
+        "total_files": 2400,
+        "file_number": 165,
         "file_details": {
-            "type": "javascript",
-            "file": "node-samples/project20793/node-sample-code20793.js",
+            "type": "java",
+            "file": "node-samples/project20590/node-sample-code20590.js",
             "dependencies": [
                 "http",
                 "express",
@@ -17,35 +17,73 @@
                 "fs",
                 "cors",
                 "body-parser",
-                "socket.io"
+                "socket.io",
+                "bcrypt"
             ],
-            "count_of_dependencies": 9,
+            "count_of_dependencies": 10,
             "env_vars": [
-                "PORT",
-                "VCAP_URL23982",
-                "DB_URL23982",
-                "VCAP_URL5463",
-                "DB_URL5463"
+                {
+                    "name": "cf-env-test",
+                    "label": "user-provided",
+                    "tags": [],
+                    "credentials": {
+                        "database": "database",
+                        "password": "passw0rd",
+                        "url": "https://example.com/",
+                        "username": "userid"
+                    },
+                    "syslog_drain_url": "http://example.com/syslog"
+                },
+                {
+                    "name": "cf-env-prod",
+                    "label": "user-provided",
+                    "tags": [],
+                    "credentials": {
+                        "database": "database-prod",
+                        "password": "passw0rd",
+                        "url": "https://prod-example.com/",
+                        "username": "userid"
+                    },
+                    "syslog_drain_url": "http://prod-example.com/syslog"
+                }
             ],
-            "env_vars_count": 141,
-            "vcap_env_vars": [
-                "VCAP_URL23982",
-                "VCAP_URL5463"
-            ],
-            "vcap_env_vars_count": 70
+            "env_vars_count": 18,
+            "vcap_env_vars": {
+                "application_name": "my-node-app-20590",
+                "application_uris": [
+                    "my-app.example.com"
+                ],
+                "application_version": "7d0d64be-7f6f-406a-9d21-504643147d63",
+                "limits": {
+                    "disk": 1024,
+                    "fds": 16384,
+                    "mem": 256
+                },
+                "name": "my-node-app-20590",
+                "organization_id": "c0134bad-97a9-468d-ab9d-e97547e3aed5",
+                "organization_name": "my-org",
+                "space_id": "37189599-2407-9946-865e-8ebd0e2df89a",
+                "space_name": "dev",
+                "uris": [
+                    "my-app.example.com"
+                ],
+                "users": null,
+                "version": "7d0d64be-7f6f-406a-9d21-504643147d63"
+            },
+            "vcap_env_vars_count": 15
         },
         "manifest": {
             "version": 1,
             "applications": [
                 {
-                    "name": "my-app-20793",
-                    "memory": "1024M",
-                    "instances": 5,
+                    "name": "my-app-20590",
+                    "memory": "64M",
+                    "instances": 7,
                     "disk_quota": "1024M",
                     "buildpacks": [
                         "https://github.com/cloudfoundry/nodejs-buildpack.git"
                     ],
-                    "log-rate-limit": "43Kb",
+                    "log-rate-limit": "46Kb",
                     "stack": "cflinuxfs3",
                     "health-check-type": "http",
                     "health-check-http-endpoint": "/health",
@@ -71,12 +109,12 @@
             ]
         },
         "packagejson": {
-            "name": "sample-node20793",
+            "name": "sample-node20590",
             "version": "0.0.0",
             "description": "PCF to OpenShift Accelerator API",
-            "main": "sample-node20793.js",
+            "main": "sample-node20590.js",
             "scripts": {
-                "start": "node sample-code20793.js"
+                "start": "node sample-code20590.js"
             },
             "dependencies": {
                 "@google-cloud/compute": "^3.7.0",
@@ -88,7 +126,8 @@
                 "http": "0.0.1-security",
                 "mongodb": "4.11.0",
                 "request": "2.88.2",
-                "socket.io": "4.5.0"
+                "socket.io": "4.5.0",
+                "gemfire": "1.0.1"
             }
         }
     }
